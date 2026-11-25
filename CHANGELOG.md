@@ -1,6 +1,6 @@
-## 0.3.0 (unreleased) <!-- RC: set the date -->
+## 0.3-preview (2026-11-25)
 
-pg_mooncake 0.3.0 is the first release of pg_mooncake built on [moonlink](https://github.com/Mooncake-Labs/moonlink).
+pg_mooncake 0.3-preview is the first release of pg_mooncake built on [moonlink](https://github.com/Mooncake-Labs/moonlink).
 It keeps a columnstore mirror of a regular Postgres table in Iceberg, up to date through logical replication, and runs
 analytics queries on the mirror in DuckDB through pg_duckdb. It is a new design: 0.1.x stored data in columnstore
 tables of its own, and nothing is migrated from it; see [Coming from 0.1.x](README.md#coming-from-01x).

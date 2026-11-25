@@ -76,7 +76,7 @@ on the wire). Response = `Result<T, moonlink_error::ErrorStruct>`.
 | 3 | GetParquetMetadatas | data_files | Vec<Vec<u8>> | nobody |
 | 4 | GetTableSchema | database, table | Arrow IPC stream (schema only) | duckdb_mooncake |
 | 5 | ListTables | – | Vec<Table{database, table, cardinality, commit_lsn, flush_lsn: Option, iceberg_warehouse_location}> | pg_mooncake |
-| 6 | LoadFiles | database, table, files | always an "unsupported" error **[pins]** | nobody: no SQL procedure exists in 0.3.0; the variant is kept for the wire order |
+| 6 | LoadFiles | database, table, files | always an "unsupported" error **[pins]** | nobody: no SQL procedure exists in 0.3-preview; the variant is kept for the wire order |
 | 7 | OptimizeTable | database, table, mode (`data`/`index`/`full`) | () | pg_mooncake |
 | 8 | ScanTableBegin | database, table, lsn: u64 | Vec<u8> (layout below) | duckdb_mooncake |
 | 9 | ScanTableEnd | database, table | () | duckdb_mooncake |

@@ -22,11 +22,8 @@
 
 For new users, we recommend using the Docker image to get started quickly:
 ```bash
-docker run --name mooncake --rm -e POSTGRES_PASSWORD=password mooncakelabs/pg_mooncake
+docker run --name mooncake --rm -e POSTGRES_PASSWORD=password mooncakelabs/pg_mooncake:18-v0.3-preview
 ```
-
-<!-- RC: publish mooncakelabs/pg_mooncake built from this release's Dockerfile (postgres:18 with the bundled pg_duckdb
-     and pg_mooncake built from source) and check that this command runs it. -->
 
 This will start Postgres with pg_mooncake preinstalled. You can then connect to it using `psql` with the default user `postgres`:
 ```bash
@@ -47,7 +44,6 @@ the `v1.0.0-mooncake` branch of [Mooncake-Labs/pg_duckdb][pgduckdb-fork-link] (t
 1.0.0 on DuckDB v1.4.1 plus the upstream fix for its TimeZone hook (duckdb/pg_duckdb#981), without which a
 configuration reload crashes every session that has run a DuckDB query. Use this pg_duckdb rather than a separately
 installed one.
-<!-- RC: confirm the Postgres versions against the release test matrix. -->
 
 **Prerequisites.**
 - Postgres 14 to 18, including the server development files (`pg_config` and headers).
@@ -190,7 +186,6 @@ If you stop using pg_mooncake, drop all mirrors so that the slot is dropped and 
 connection string in its metadata store (`moonlink_metadata_store.sqlite` in `mooncake.data_directory`), and some of
 its errors repeat it, so use one without a password: let `.pgpass`, `peer` or certificate authentication supply the
 credentials. pg_mooncake's own connection errors show only the host, port, database and user.
-<!-- RC: src_uri is not covered by the release tests; test it or drop this paragraph. -->
 
 **Column types.** Mirrors store booleans, character and text types, integers, floating-point numbers, `numeric` (up to
 38 digits), `bytea`, dates, times and timestamps (not `timetz`), `uuid`, `json`/`jsonb`, `oid` and enums, and
@@ -283,9 +278,9 @@ created again under the same name, which removes it. After a crash, if a mirror 
 
 ## Coming from 0.1.x
 
-pg_mooncake 0.3.0 is a new architecture. 0.1.x stored data in its own columnstore tables; 0.3.0 keeps your data in
-regular Postgres tables and mirrors them into Iceberg through logical replication. Nothing is migrated from 0.1.x, and
-`ALTER EXTENSION pg_mooncake UPDATE` cannot upgrade it.
+pg_mooncake 0.3-preview is a new architecture. 0.1.x stored data in its own columnstore tables; 0.3-preview keeps your
+data in regular Postgres tables and mirrors them into Iceberg through logical replication. Nothing is migrated from
+0.1.x, and `ALTER EXTENSION pg_mooncake UPDATE` cannot upgrade it.
 
 1. Copy any data you want to keep into regular tables, for example `CREATE TABLE t_heap AS SELECT * FROM t;`.
    `CREATE TABLE AS` doesn't copy the primary key or other constraints, so add them back
@@ -294,11 +289,11 @@ regular Postgres tables and mirrors them into Iceberg through logical replicatio
 3. Delete 0.1's data files, which `DROP EXTENSION` leaves behind: `$PGDATA/mooncake_local_tables/` and
    `$PGDATA/mooncake_local_cache/`, and, if you set `mooncake.default_bucket`, the `mooncake_<database>_<table>_<oid>/`
    prefixes in that bucket.
-4. Install 0.3.0 (see [Installation](#installation)). Add `pg_duckdb,pg_mooncake` to `shared_preload_libraries`, set
+4. Install 0.3-preview (see [Installation](#installation)). Add `pg_duckdb,pg_mooncake` to `shared_preload_libraries`, set
    `wal_level = logical` and `duckdb.allow_community_extensions = true`, and restart Postgres before
    `CREATE EXTENSION pg_mooncake CASCADE`.
 
-Then follow the [Quick Start](#quick-start). See the [CHANGELOG](CHANGELOG.md) for what 0.3.0 does and its known
+Then follow the [Quick Start](#quick-start). See the [CHANGELOG](CHANGELOG.md) for what 0.3-preview does and its known
 limitations.
 
 ## Contributing
